@@ -95,10 +95,11 @@ class LoginPage(QtGui.QWidget):
             event.ignore()
 
 ## connect server sock
-sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-sock.connect((HOST, PORT))
+if __name__ == "__main__":
+	sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	sock.connect((HOST, PORT))
 
-app = QtGui.QApplication(sys.argv)
-qb = LoginPage(sock)
-qb.show()
-sys.exit(app.exec_())
+	app = QtGui.QApplication(sys.argv)
+	lp = LoginPage(sock)
+	lp.show()
+	sys.exit(app.exec_())

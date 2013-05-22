@@ -1,0 +1,7 @@
+To run this code, you should have python, pyQt4, cocos2d-python, pygame in your enviroment.
+
+==============================================================
+
+1, how to run the client
+
+python loginpage.py

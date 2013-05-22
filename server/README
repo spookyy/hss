@@ -7,7 +7,7 @@ To build this code, run the following command:
 
   2) start erl shell
    
-  erl -pa ebin/ -sname cqm@opensuse -mnesia dir '"/home/cqm/workspace/hss"'
+  erl -pa ebin/ -sname cqm@opensuse -mnesia dir '"/where/hss/is/||~/hss/client"'
   
   3) You'd better start the mnesia in the shell
   

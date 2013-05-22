@@ -1,6 +1,19 @@
 This is for instruction!!!
 To build this code, run the following command:
 ================================================================================
+
+  Before everything get started, at the very beginning, you should:
+  A) mnesia:dirty_write(#identity{id=1, name="root",password="root"})
+  B) mnesia:dirty_write({room,room_id_1,"ROOM A",0,not_ready}).
+     mnesia:dirty_write({room,room_id_2,"ROOM B",0,not_ready}).
+     mnesia:dirty_write({room,room_id_3,"ROOM C",0,not_ready}).
+     mnesia:dirty_write({room,room_id_4,"ROOM D",0,not_ready}).
+     mnesia:dirty_write({room,room_id_5,"ROOM E",0,not_ready}).
+  After you do the commands over, data is stored on disk and you won't or shouldn't
+have to do that shit again.
+
+  So, then everytime when you update some code, you may follow the setups below, enjoy it.
+=================================================================================
   1) to build src files
  
   erlc -o ebin src/*.erl

@@ -1,8 +1,13 @@
 To run this code, you should have python, pyQt4, cocos2d-python, pygame in your enviroment.
 
-NOTHING added, just for test
-==============================================================
 
-1, how to run the client
+==============================================================
+1, loginpage.py ---> login page, you should firstly and only run it
+   
+   hall.py      ---> hall page, you can either create a room or choose a room to join
+   
+   room.py      ---> the "main" page where you actually playing game
+   
+2, how to run the client
 
 python loginpage.py

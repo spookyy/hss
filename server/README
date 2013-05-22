@@ -19,14 +19,15 @@ To build this code, run the following command:
   
   5) how to create a table and write a record into table
   %%% create a table
-  case mnesia:create_table(identity, [{type, ordered_set}, {attributes, record_info(fields, identity)}, {disc_copies,[node()]}]) of
+  case mnesia:create_table(identity, [{type, ordered_set}, 
+		{attributes, record_info(fields, identity)}, {disc_copies,[node()]}]) of
     	{atomic, ok} ->
     	    ok;
     	{aborted, MnesiaNoCreateTableReason} ->
     	    io:format("what's up"),
     	    exit(MnesiaNoCreateTableReason)
-    end,
-    %%% write a record
-    mnesia:dirty_write(#identity{id=12222222, name="weirdo",password="youguess"})
+  end,
+  %%% write a record
+  mnesia:dirty_write(#identity{id=12222222, name="weirdo",password="youguess"})
     
     

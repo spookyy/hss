@@ -27,6 +27,6 @@ To build this code, run the following command:
     	    exit(MnesiaNoCreateTableReason)
     end,
     %%% write a record
-    mnesia:dirty_write(#identity{id=12222222, name="cqm",password="iamcrazy"})
+    mnesia:dirty_write(#identity{id=12222222, name="weirdo",password="youguess"})
     
     

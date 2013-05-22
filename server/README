@@ -1,0 +1,32 @@
+This is for instruction!!!
+To build this code, run the following command:
+------------------------------------------------ 
+  1) to build src files
+ 
+  erlc -o ebin src/*.erl
+
+  2) start erl shell
+   
+  erl -pa ebin/ -sname cqm@opensuse -mnesia dir '"/home/cqm/workspace/hss"'
+  
+  3) You'd better start the mnesia in the shell
+  
+  mnesia:start().
+  
+  4) In erl shell, you should run:
+  
+  application:start(hss).
+  
+  5) how to create a table and write a record into table
+  %%% create a table
+  case mnesia:create_table(identity, [{type, ordered_set}, {attributes, record_info(fields, identity)}, {disc_copies,[node()]}]) of
+    	{atomic, ok} ->
+    	    ok;
+    	{aborted, MnesiaNoCreateTableReason} ->
+    	    io:format("what's up"),
+    	    exit(MnesiaNoCreateTableReason)
+    end,
+    %%% write a record
+    mnesia:dirty_write(#identity{id=12222222, name="cqm",password="iamcrazy"})
+    
+    

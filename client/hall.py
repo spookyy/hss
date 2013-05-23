@@ -3,31 +3,24 @@ from pygame.locals import *
 
 
 class Hall:
-    RED = (255, 0, 0)
-    BLUE = (0, 0, 255)
-    
-    
-    def __init__(self):
+    def __init__(self,sock):
         # Initial pygame
-        
         pygame.init()
         pygame.display.set_caption("HEI SHEN SHA")
-		self.screen = pygame.display.set_mode((640, 480), 0, 32)
-        self.screen.fill((0, 0, 0))
-		font = pygame.font.SysFont("Arial",16)
-        self.screen.blit(font, (0,96) 
-        
+        self.screen = pygame.display.set_mode((640, 480), 0, 32)
+        self.screen.fill((0, 125, 125))
+                        
         self.textrect1 = Rect(0, 0, 640, 96)
         self.textrect2 = Rect(0, 96, 640, 96)
         self.textrect3 = Rect(0, 192, 640, 96)
         self.textrect4 = Rect(0, 288, 640, 96)
         self.textrect5 = Rect(0, 394, 640, 96)
-        self.area = Rect(0, 192, 640, 480)
-        
-        self.selectedColor = Hall.BLUE
-        
-        
-        
+
+        self.text = ["room room_id_1 ROOM A 0/2 not_ready",
+                     "room room_id_2 ROOM B 0/2 not_ready",
+                     "room room_id_3 ROOM C 0/2 not_ready",
+                     "room room_id_4 ROOM D 0/2 not_ready",
+                     "room room_id_5 ROOM E 0/2 not_ready"]
     def run(self):
         # Run the event loop
         self.loop()
@@ -53,12 +46,9 @@ class Hall:
         return Exit
     
     def handleMouseDown(self, (x,y)):
-        print x,y
         if(self.textrect1.collidepoint(x,y)):
-            self.selectedColor = Hall.BLUE
             print "rect1"
         elif (self.textrect2.collidepoint(x,y)):
-            self.selectedColor = Hall.RED
             print "rect2"
         elif (self.textrect3.collidepoint(x,y)):
             print "rect3"
@@ -68,33 +58,22 @@ class Hall:
             print "rect5"    
     
     def draw(self):
-        #self.makeText("reset", (255,125,125))
-        pygame.draw.rect(
-                         self.screen,
-                         Hall.BLUE, 
-                         self.textrect1
-                         )
-        pygame.draw.rect(
-                         self.screen,
-                         Hall.RED,
-                         self.textrect2
-                         )
-        
-        pygame.draw.rect(
-                         self.screen,
-                         self.selectedColor,
-                         self.area
-                         )
+        self.makeText( self.text[0], (255,125,125), self.textrect1)
+        pygame.draw.line(self.screen, (0,0,0), (0,96), (640, 96))
+        self.makeText( self.text[1], (255,125,125), self.textrect2)
+        pygame.draw.line(self.screen, (0,0,0), (0,192), (640, 192))
+        self.makeText( self.text[2], (255,125,125), self.textrect3)
+        pygame.draw.line(self.screen, (0,0,0), (0,288), (640, 288))
+        self.makeText( self.text[3], (255,125,125), self.textrect4)
+        pygame.draw.line(self.screen, (0,0,0), (0,384), (640, 384))
+        self.makeText( self.text[4], (255,125,125), self.textrect5)
         pygame.display.update()
         
-    def makeText(self, text, color):
-        font = pygame.font.SysFont('arial', 6)
-        textSurf = BASICFONT.render(text, True, color)
-        self.screen.blit(textSurf,(320, 240))
+    def makeText(self, text, color, rect):
+        font = pygame.font.SysFont('liberationmono', 16)
+        textSurf = font.render(text, True, color)
+        self.screen.blit(textSurf,rect)
 
-
-Hall().run()
-    
     
     
     

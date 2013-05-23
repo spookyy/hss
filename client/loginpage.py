@@ -102,4 +102,6 @@ if __name__ == "__main__":
 	app = QtGui.QApplication(sys.argv)
 	lp = LoginPage(sock)
 	lp.show()
-	sys.exit(app.exec_())
+	app.exec_()
+
+    Hall(sock).run()

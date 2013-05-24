@@ -1,8 +1,10 @@
-This is for instruction!!!
-To build this code, run the following command:
+This is instruction!!!
+
+=================================================================================
+  Before everything get started, at the very beginning, you may need:
 ================================================================================
 
-  Before everything get started, at the very beginning, you should:
+
   A) mnesia:dirty_write(#identity{id=1, name="root",password="root"})
   B) mnesia:dirty_write({room,room_id_1,"ROOM A",0,not_ready}).
      mnesia:dirty_write({room,room_id_2,"ROOM B",0,not_ready}).
@@ -12,7 +14,9 @@ To build this code, run the following command:
   After you do the commands over, data is stored on disk and you won't or shouldn't
 have to do that shit again.
 
-  So, then everytime when you update some code, you may follow the setups below, enjoy it.
+=================================================================================
+  Then everytime when you update some code, you may follow the setups below, enjoy it.
+  To build this code, run the following command:
 =================================================================================
   1) to build src files
  
@@ -22,15 +26,18 @@ have to do that shit again.
    
   erl -pa ebin/ -sname cqm@opensuse -mnesia dir '"/where/hss/is/||~/hss/client"'
   
-  3) You'd better start the mnesia in the shell
+  3) You should start the mnesia in the shell
   
   mnesia:start().
   
   4) In erl shell, you should run:
   
   application:start(hss).
-  
-  5) how to create a table and write a record into table
+ 
+=================================================================================
+  Some tips:
+=================================================================================
+  1) how to create a table
   %%% create a table
   case mnesia:create_table(identity, [{type, ordered_set}, 
 		{attributes, record_info(fields, identity)}, {disc_copies,[node()]}]) of
@@ -40,6 +47,7 @@ have to do that shit again.
     	    io:format("what's up"),
     	    exit(MnesiaNoCreateTableReason)
   end,
+  2) how to write a record into table 
   %%% write a record
   mnesia:dirty_write(#identity{id=12222222, name="weirdo",password="youguess"})
     

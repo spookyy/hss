@@ -130,5 +130,8 @@ terminate(_Reason, _State) ->
 
 create_room(RoomId) ->
     io:format("create room~n"),
-    room:create(RoomId).
+    room:create(RoomId),
+    ChildSpec = {RoomId, {room, create, [RoomId]},
+		permanent, 2000, worker, [room]},
+    hss_sup:start_child(ChildSpec).
 

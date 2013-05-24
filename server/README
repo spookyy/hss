@@ -3,8 +3,6 @@ This is instruction!!!
 =================================================================================
   Before everything get started, at the very beginning, you may need:
 ================================================================================
-
-
   A) mnesia:dirty_write(#identity{id=1, name="root",password="root"})
   B) mnesia:dirty_write({room,room_id_1,"ROOM A",0,not_ready}).
      mnesia:dirty_write({room,room_id_2,"ROOM B",0,not_ready}).
@@ -19,19 +17,12 @@ have to do that shit again.
   To build this code, run the following command:
 =================================================================================
   1) to build src files
- 
   erlc -o ebin src/*.erl
-
   2) start erl shell
-   
   erl -pa ebin/ -sname cqm@opensuse -mnesia dir '"/where/hss/is/||~/hss/client"'
-  
   3) You should start the mnesia in the shell
-  
   mnesia:start().
-  
   4) In erl shell, you should run:
-  
   application:start(hss).
  
 =================================================================================

@@ -17,6 +17,7 @@
 -export([
 	 start/0,
 	 stop/0,
+	 get_room_info/0,
 	 login/1,
 	 logout/1,
 	 notify/2
@@ -38,6 +39,9 @@ start() ->
 
 stop() ->
     gen_server:cast(?SERVER, stop).
+
+get_room_info() ->
+    gen_server:call(?SERVER, get_room_info).
 
 login(Id) ->
     gen_server:call(?MODULE, {login, Id}).
@@ -87,6 +91,9 @@ server_accept(LSock) ->
 	    exit(Reason)
     end.
 
+handle_call( get_room_info, _From, State) ->
+    {reply, State#state.rooms, State}; 
+
 handle_call({login, Id}, _From, State) ->
     Tourist = #tourist{ id=Id},
     Tourists = State#state.tourists,
@@ -105,12 +112,15 @@ handle_call(_Request, _From, State) ->
 
 handle_cast({room_status_changed, RoomId, PlayersCount}, State) ->
     Rooms = State#state.rooms,
+    NewRooms = lists:map(fun(X) -> lists_map(X,RoomId, PlayersCount) end,
+		   Rooms),
+    NewState = State#state{rooms = NewRooms},
     [begin
-	 gen_server:cast(RoomId,{room_status_changed, State})
+	 gen_server:cast(Rid,{room_status_changed, NewRooms})
      end
-     || {room, RoomId, _, _, _} <- Rooms],
+     || {room, Rid, _, _, _} <- NewRooms],
     io:format("hall:handle_cast <-> notify~n"),
-    {noreply, State};
+    {noreply, NewState};
 
 handle_cast(stop, State) ->
     {stop, normal, State}.
@@ -130,8 +140,9 @@ terminate(_Reason, _State) ->
 
 create_room(RoomId) ->
     io:format("create room~n"),
-    room:create(RoomId),
-    ChildSpec = {RoomId, {room, create, [RoomId]},
-		permanent, 2000, worker, [room]},
-    hss_sup:start_child(ChildSpec).
+    room:create(RoomId).
+
+lists_map( {room, RId, RN, _PC, Status} = _X, RoomId, PlayersCount) when RId =:= RoomId  ->
+    {room, RId, RN, PlayersCount, Status};
+lists_map(X, _RId, _PC) -> X.
 

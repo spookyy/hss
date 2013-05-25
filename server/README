@@ -19,7 +19,7 @@ have to do that shit again.
   1) to build src files
   erlc -o ebin src/*.erl
   2) start erl shell
-  erl -pa ebin/ -sname cqm@opensuse -mnesia dir '"/where/hss/is/||~/hss/client"'
+  erl -pa ebin/ -sname cqm@opensuse -mnesia dir '"/where/hss/is/||~/hss/server"'
   3) You should start the mnesia in the shell
   mnesia:start().
   4) In erl shell, you should run:

@@ -18,21 +18,27 @@ loop(Sock) ->
 		    case hd(Rcv_list) of
 			"login" ->
 			    [Name,Password] = tl(Rcv_list),
-			    F = fun() ->
-					%% check whether there is already in mnesi
-					case mnesia:index_read(identity, Name,name) of
-					    [] ->
-						gen_tcp:send(Sock,"Sir, you haven't registered yet");
-					    [#identity{id=_Id,name=Name,password=Password}] ->
-						%% here player should entered the game hall
-						io:format("here player should entered the game hall~n");
-					     _ ->
-						gen_tcp:send(Sock,"Sir, you password is wrong, relogin or register")
-						
-					end
-				end,
-			    {atomic, ResultOfFun} = mnesia:transaction(F),					
-			    io:format("~p~n",[ResultOfFun]);
+			   
+			    io:format("login is ok~n"),
+			    %% check whether there is already in mnesi
+			    case mnesia:dirty_index_read(identity, Name,name) of
+				[] ->
+				    gen_tcp:send(Sock,"Sir, you haven't registered yet");
+				[#identity{id=_Id,name=Name,password=Password}] ->
+				    %% here player should entered the game hall
+				    %% first get the room info
+				    gen_tcp:send(Sock,"ok"),
+				    RoomsInfo = hall:get_room_info(),
+				    [ begin
+				    	  StringRI = tuple_to_string(RoomInfo),
+				    	  gen_tcp:send(Sock, StringRI)
+				      end|| RoomInfo <- RoomsInfo],
+				    TPid = tourist:create(Sock,#identity{id=_Id,name=Name,password=Password}),
+				    gen_tcp:controlling_process(Sock, TPid),
+				    exit(self(),normal);
+				_ ->
+				    gen_tcp:send(Sock,"Sir, you password is wrong, relogin or register")
+			    end;
 		        "register" ->		
 			    [Name,Password] = tl(Rcv_list),
 			    F = fun() ->
@@ -50,8 +56,7 @@ loop(Sock) ->
 			    io:format("register :~p~n",[ResultOfFun]);
 			_ ->
                             gen_tcp:send(Sock, "Some error happens, waiting to be fixed")
-		end,
-		gen_tcp:send(Sock,"ok")
+		    end
 	    end,
 	    loop(Sock);
 	{tcp_closed, Sock} ->
@@ -61,3 +66,6 @@ loop(Sock) ->
 	    io:format("tcp error"),
 	    exit(Reason)
     end.
+
+tuple_to_string({room,Id, RN, PN, Status}=_Tuple) ->
+    lists:concat([room," ", Id, " ", RN, " ", PN, " ", Status]). 

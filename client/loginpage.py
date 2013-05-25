@@ -7,6 +7,7 @@ from time import ctime
 import cocos
 import pygame
 from pygame.locals import *
+from hall import *
 
 
 HOST = 'localhost'
@@ -47,8 +48,12 @@ class LoginPage(QtGui.QWidget):
         ### some sock
         self.sock = sock
         
+        self.Exit = True
+        
     def login_ok(self):
-        print "yeah, login is ok"
+        print "login_ok"
+        self.Exit = False
+        self.close()
     def login_error(self,error_msg):
         QtGui.QMessageBox.question(self, '', error_msg) 
         print "login error"
@@ -59,7 +64,7 @@ class LoginPage(QtGui.QWidget):
         self.sock.send(reg_msg)
         data = self.sock.recv(1024)
         
-        print unicode(data)
+        print "wtf",unicode(data)
         
         if unicode(data) == u'ok':
             self.login_ok()
@@ -85,23 +90,26 @@ class LoginPage(QtGui.QWidget):
             self.reg_error(unicode(data))
     
     def closeEvent(self, event):
-
-        reply = QtGui.QMessageBox.question(self,'',
-                                           "Are you sure you wanna quit?", QtGui.QMessageBox.Yes,
-                                           QtGui.QMessageBox.No)
-        if reply == QtGui.QMessageBox.Yes:
+        if self.Exit == False:
             event.accept()
         else:
-            event.ignore()
+            reply = QtGui.QMessageBox.question(self,'',
+                                            "Are you sure you wanna quit?", QtGui.QMessageBox.Yes,
+                                            QtGui.QMessageBox.No)
+            if reply == QtGui.QMessageBox.Yes:
+                event.accept()
+            else:
+                event.ignore()
 
 ## connect server sock
 if __name__ == "__main__":
-	sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-	sock.connect((HOST, PORT))
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock.connect((HOST, PORT))
 
-	app = QtGui.QApplication(sys.argv)
-	lp = LoginPage(sock)
-	lp.show()
-	app.exec_()
+    app = QtGui.QApplication(sys.argv)
+    lp = LoginPage(sock)
+    lp.show()
+    app.exec_()
 
-    Hall(sock).run()
+    eHall = Hall(sock)
+    eHall.run()

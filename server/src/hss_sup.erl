@@ -21,6 +21,7 @@ start_link() ->
 
 %% add worker process dynamically
 start_child(ChildSpec) ->
+    io:format("hss_sup:~p~n",[ChildSpec]),
     supervisor:start_child(?SUPERVISOR, ChildSpec).
 
 init([]) ->

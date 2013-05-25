@@ -21,6 +21,11 @@ class Hall:
                      "room room_id_3 ROOM C 0/2 not_ready",
                      "room room_id_4 ROOM D 0/2 not_ready",
                      "room room_id_5 ROOM E 0/2 not_ready"]
+        self.sock = sock
+        for i in range(0,5):
+            data = self.sock.recv(33)
+            self.text[i] = data
+            print i, data
     def run(self):
         # Run the event loop
         self.loop()
@@ -47,15 +52,16 @@ class Hall:
     
     def handleMouseDown(self, (x,y)):
         if(self.textrect1.collidepoint(x,y)):
-            print "rect1"
+            self.sock.send(u"room_id_1")
         elif (self.textrect2.collidepoint(x,y)):
-            print "rect2"
+            self.sock.send(u"room_id_2")
         elif (self.textrect3.collidepoint(x,y)):
-            print "rect3"
+            self.sock.send(u"room_id_3")
         elif (self.textrect4.collidepoint(x,y)):
-            print "rect4"
+            self.sock.send(u"room_id_4")
         else:
-            print "rect5"    
+            self.sock.send(u"room_id_5")
+        self.draw()
     
     def draw(self):
         self.makeText( self.text[0], (255,125,125), self.textrect1)

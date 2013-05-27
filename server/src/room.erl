@@ -31,7 +31,7 @@ stop()->
     gen_server:call(?MODULE,stop).
 
 player_enter(RoomId,PlayerId) ->
-    gen_server:cast(RoomId, {player_enter, PlayerId}).
+    gen_server:call(RoomId, {player_enter, PlayerId}).
 
 player_exit(RoomId,PlayerId) ->
     gen_server:cast(RoomId, {player_exit, PlayerId}).
@@ -44,18 +44,25 @@ init([LocalName]) ->
 handle_call(stop, _From, State)->
     {stop, normal, stopped, State};
 
+handle_call({player_enter, PlayerId}, _From, State) ->
+    PlayerCount = length(State#state.players),
+    case PlayerCount < 2 of
+	true ->
+	    Players = State#state.players,
+	    NewPlayers = [PlayerId|Players],
+	    io:format("player ~p enters room ~p~n", [PlayerId, State#state.self_id]),
+	    io:format("room ~p has players: ~p~n", [State#state.self_id, NewPlayers]),
+	    %% notify hall some has entered this room
+	    RoomId = State#state.self_id,
+	    hall:notify(RoomId,PlayerCount),
+	    {reply, "ok", State#state{players=NewPlayers}};
+	false ->
+	    {reply, "nok", State}
+    end;
+
 handle_call(_Request, _From, State)->
     {reply, handle_call, State}.
 
-handle_cast({player_enter, PlayerId}, State) ->
-    Players = State#state.players,
-    NewPlayers = [PlayerId|Players],
-    io:format("player ~p enters room ~p~n", [PlayerId, State#state.self_id]),
-    %% notify hall some has entered this room
-    RoomId = State#state.self_id,
-    PlayerCount = length(State#state.players),
-    hall:notify(RoomId,PlayerCount),
-    {noreply, State#state{players=NewPlayers}};
 handle_cast({player_exit, PlayerId}, State) ->
     Players = State#state.players,
     NewPlayers = lists:delete(PlayerId, Players),

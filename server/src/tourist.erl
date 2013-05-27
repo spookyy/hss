@@ -20,7 +20,8 @@ loop(Sock,TstInfo) ->
 	    %% extract which room
 	    Room = binary_to_list(Data),
 	    io:format("TId ~p want to enter room ~p~n", [TId,Room]),
-	    room:player_enter(list_to_atom(Room), list_to_atom(TId)),
+	    Join_room = room:player_enter(list_to_atom(Room), list_to_atom(TId)),
+	    gen_tcp:send(Sock, Join_room),
 	    loop(Sock,TstInfo);
 	{tcp_closed, Sock} ->
 	    %% do some thing

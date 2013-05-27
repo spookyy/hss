@@ -53,15 +53,24 @@ class Hall:
     def handleMouseDown(self, (x,y)):
         if(self.textrect1.collidepoint(x,y)):
             self.sock.send(u"room_id_1")
+            data = self.sock.recv(3)
+            if unicode(data) == "ok":
+                something is wrong here
+                exit()
+            elif unicode(data) == "nok":
+                print "can't get into the room"
         elif (self.textrect2.collidepoint(x,y)):
             self.sock.send(u"room_id_2")
+            self.draw()
         elif (self.textrect3.collidepoint(x,y)):
             self.sock.send(u"room_id_3")
+            self.draw()
         elif (self.textrect4.collidepoint(x,y)):
             self.sock.send(u"room_id_4")
+            self.draw()
         else:
             self.sock.send(u"room_id_5")
-        self.draw()
+            self.draw()
     
     def draw(self):
         self.makeText( self.text[0], (255,125,125), self.textrect1)

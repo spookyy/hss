@@ -9,7 +9,9 @@ class Hall:
         pygame.display.set_caption("HEI SHEN SHA")
         self.screen = pygame.display.set_mode((640, 480), 0, 32)
         self.screen.fill((0, 125, 125))
-                        
+                
+		self.Exit = False
+        
         self.textrect1 = Rect(0, 0, 640, 96)
         self.textrect2 = Rect(0, 96, 640, 96)
         self.textrect3 = Rect(0, 192, 640, 96)
@@ -33,14 +35,12 @@ class Hall:
         pygame.quit()
     
     def loop(self):
-        Exit = False
-        while not Exit:
-            Exit = self.handleEvents()
+        while not self.Exit:
+            self.Exit = self.handleEvents()
             self.draw()
             
     def handleEvents(self):
-        Exit = False
-        
+		Exit = False
         for event in pygame.event.get():
             if event.type == QUIT:
                 Exit = True
@@ -55,8 +55,7 @@ class Hall:
             self.sock.send(u"room_id_1")
             data = self.sock.recv(3)
             if unicode(data) == "ok":
-                something is wrong here
-                exit()
+                self.Exit = True
             elif unicode(data) == "nok":
                 print "can't get into the room"
         elif (self.textrect2.collidepoint(x,y)):

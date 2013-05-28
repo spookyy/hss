@@ -10,7 +10,7 @@ class Hall:
         self.screen = pygame.display.set_mode((640, 480), 0, 32)
         self.screen.fill((0, 125, 125))
                 
-		self.Exit = False
+        self.Exit = False
         
         self.textrect1 = Rect(0, 0, 640, 96)
         self.textrect2 = Rect(0, 96, 640, 96)
@@ -36,19 +36,17 @@ class Hall:
     
     def loop(self):
         while not self.Exit:
-            self.Exit = self.handleEvents()
+            self.handleEvents()
             self.draw()
             
     def handleEvents(self):
-		Exit = False
         for event in pygame.event.get():
             if event.type == QUIT:
-                Exit = True
+                self.Exit = True
             elif event.type == KEYDOWN:
-                Exit = True
+                self.Exit = True
             elif event.type == MOUSEBUTTONDOWN:
                 self.handleMouseDown(pygame.mouse.get_pos())
-        return Exit
     
     def handleMouseDown(self, (x,y)):
         if(self.textrect1.collidepoint(x,y)):
@@ -58,6 +56,7 @@ class Hall:
                 self.Exit = True
             elif unicode(data) == "nok":
                 print "can't get into the room"
+                self.Exit = True
         elif (self.textrect2.collidepoint(x,y)):
             self.sock.send(u"room_id_2")
             self.draw()

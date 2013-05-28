@@ -55,20 +55,40 @@ class Hall:
             if unicode(data) == "ok":
                 self.Exit = True
             elif unicode(data) == "nok":
-                print "can't get into the room"
+                print "room is full, can't get into the room"
                 self.Exit = True
         elif (self.textrect2.collidepoint(x,y)):
             self.sock.send(u"room_id_2")
-            self.draw()
+            data = self.sock.recv(3)
+            if unicode(data) == "ok":
+                self.Exit = True
+            elif unicode(data) == "nok":
+                print "room is full, can't get into the room"
+                self.Exit = True
         elif (self.textrect3.collidepoint(x,y)):
             self.sock.send(u"room_id_3")
-            self.draw()
+            data = self.sock.recv(3)
+            if unicode(data) == "ok":
+                self.Exit = True
+            elif unicode(data) == "nok":
+                print "room is full, can't get into the room"
+                self.Exit = True
         elif (self.textrect4.collidepoint(x,y)):
             self.sock.send(u"room_id_4")
-            self.draw()
+            data = self.sock.recv(3)
+            if unicode(data) == "ok":
+                self.Exit = True
+            elif unicode(data) == "nok":
+                print "room is full, can't get into the room"
+                self.Exit = True
         else:
             self.sock.send(u"room_id_5")
-            self.draw()
+            data = self.sock.recv(3)
+            if unicode(data) == "ok":
+                self.Exit = True
+            elif unicode(data) == "nok":
+                print "can't get into the room"
+                self.Exit = True
     
     def draw(self):
         self.makeText( self.text[0], (255,125,125), self.textrect1)

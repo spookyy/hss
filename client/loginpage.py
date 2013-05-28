@@ -63,7 +63,7 @@ class LoginPage(QtGui.QWidget):
         reg_msg = u"login" + u"@"  + unicode(self.name_edit.text()) + u"@" + unicode(self.password_edit.text())
         print reg_msg
         self.sock.send(reg_msg)
-        data = self.sock.recv(1024)
+        data = self.sock.recv(2)
         
         print "wtf",unicode(data)
         
@@ -115,10 +115,8 @@ if __name__ == "__main__":
     eHall = Hall(sock)
     eHall.run()
     
-    print "before cocos"
     cocos.director.director.init()
     hello_room = Room(12)
     
     main_scene = cocos.scene.Scene(hello_room)
     cocos.director.director.run(main_scene)
-    print "after cocos"

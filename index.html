@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <title>HSS by spookyy</title>
+  </head>
+
+  <body>
+
+    <header>
+      <div class="container">
+        <h1>HSS</h1>
+        <h2></h2>
+
+        <section id="downloads">
+          <a href="https://github.com/spookyy/hss/zipball/master" class="btn">Download as .zip</a>
+          <a href="https://github.com/spookyy/hss/tarball/master" class="btn">Download as .tar.gz</a>
+          <a href="https://github.com/spookyy/hss" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+        </section>
+      </div>
+    </header>
+
+    <div class="container">
+      <section id="main_content">
+        <h3>
+<a name="welcome-to-hss-pages" class="anchor" href="#welcome-to-hss-pages"><span class="octicon octicon-link"></span></a>Welcome to HSS Pages.</h3>
+
+<p>HSS is short for "HEI SHENG SHA", a card-playing game like "SAN GUO SHA". 
+The differences between them is playing roles and many other aspects.
+Source code includes client and server code. Client code is based on PYTHON while 
+server code based on erlang, a concurrency-oriented programming language.
+The most important thing for us is: HAVE FUN!!!</p>
+
+<h3>
+<a name="how-to-get-source-code-sorry-you-cant-checkin-any-code" class="anchor" href="#how-to-get-source-code-sorry-you-cant-checkin-any-code"><span class="octicon octicon-link"></span></a>How to get source code, sorry, you can't checkin any code</h3>
+
+<pre><code>$ cd your_repo_root/repo_name
+$ git clone git@github.com:spookyy/hss.git
+</code></pre>
+
+<h3>
+<a name="why-python-for-client" class="anchor" href="#why-python-for-client"><span class="octicon octicon-link"></span></a>Why python for client</h3>
+
+<p>Uhh, the truth is no reason. I myself very like python. That's the only reason. Long long ago when I tried to find a language for client part, I thought why not, python can do everything for me. Another reason is that I'm a newbie, I need practice. As the old saying goes, practice makes perfect.</p>
+
+<p>To run this code, you should have python, pyQt4, cocos2d-python, pygame in your enviroment.</p>
+
+<p>FYI:</p>
+
+<pre><code> loginpage.py ---&gt; login page, you should firstly and only run it
+ hall.py      ---&gt; hall page, you can either create a room or 
+                   choose a room to join
+ room.py      ---&gt; the "main" page where you actually playing game
+</code></pre>
+
+<h3>
+<a name="how-to-run-the-client" class="anchor" href="#how-to-run-the-client"><span class="octicon octicon-link"></span></a>how to run the client</h3>
+
+<pre><code>$ python loginpage.py
+</code></pre>
+
+<h3>
+<a name="why-erlang-for-server" class="anchor" href="#why-erlang-for-server"><span class="octicon octicon-link"></span></a>Why erlang for server</h3>
+
+<p>Interesting. Erlang is a programming language used to build massively scalable soft real-time systems with requirements on high availability. Some of its uses are in telecoms, banking, e-commerce, computer telephony and instant messaging. Erlang's runtime system has built-in support for concurrency, distribution and fault tolerance. I am familiar with it and it is convenient and quick to build a realiable server with erlang. YOu can get anything about erlang at:<a href="http://www.erlang.org/">http://www.erlang.org/</a>. You are welcome to share somethin interesting with <a href="https://github.com/spookyy" class="user-mention">@spookyy</a>, or email me at <a href="mailto:qmchen2011@126.com">qmchen2011@126.com</a>.</p>
+
+<h3>
+<a name="how-to-start-server" class="anchor" href="#how-to-start-server"><span class="octicon octicon-link"></span></a>How to start server</h3>
+
+<p>To build this code, run the following command:</p>
+
+<p>1) to build src files</p>
+
+<pre><code>$ erlc -o ebin src/*.erl
+</code></pre>
+
+<p>2) start erl shell</p>
+
+<pre><code>$ erl -pa ebin/ -sname unode@uhost -mnesia dir '"/where/your/hss/is/"'
+</code></pre>
+
+<p>3) You should start the mnesia in the shell</p>
+
+<pre><code>$erl&gt; mnesia:start().
+</code></pre>
+
+<p>4) In erl shell, you should run:</p>
+
+<pre><code>$erl&gt; application:start(hss).
+</code></pre>
+
+<h3>
+<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+
+<p>Anthing wrong with code, pls contact <a href="mailto:qmchen2011@126.com">qmchen2011@126.com</a>, or <a href="https://github.com/spookyy" class="user-mention">@spookyy</a></p>
+
+<h3>
+<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
+
+<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+      </section>
+    </div>
+
+    
+  </body>
+</html>

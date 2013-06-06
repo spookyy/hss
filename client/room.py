@@ -2,7 +2,15 @@ import sys
 import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
+from pyglet import image, font
+from pyglet.gl import *
+from pyglet.window import key
+
 import cocos
+from cocos.sprite import Sprite
+
+from pygame.locals import *
+
 
 class Room(cocos.layer.Layer):
     is_event_handler = True
@@ -11,26 +19,45 @@ class Room(cocos.layer.Layer):
         
         self.sock = sock
         self.scene = scene
-
-        label = cocos.text.Label('Hello, world',
-             font_name='liberationmono',
-             font_size=32,
-             anchor_x='center', anchor_y='center')
-        label.position = 320, 240
-        self.add(label)
         
-    def on_key_press(self, key, modifiers):
-        """This function is called when a key is pressed.
-        'key' is a constant indicating which key was pressed.
-        'modifiers' is a bitwise or of several constants indicating which  
-        'modifiers are active at the time of the press (ctrl, shift, capslock, etc.)
+        self.image1 = pyglet.resource.image('qiuqiu.jpg')
+        self.image1.anchor_x = self.image1.width/2
+        self.image1.anchor_y = self.image1.height/2
+        sprite1 = Sprite(self.image1)
+        self.add(sprite1, z=0, name="qiuqiu")
+        sprite1.position = 220, 240
+        
+        self.image2 = pyglet.resource.image('heishen.jpg')
+        self.image2.anchor_x = self.image2.width/2
+        self.image2.anchor_y = self.image2.height/2
+        sprite2 = Sprite(self.image2)
+        self.add(sprite2, z=0, name="heishen")
+        sprite2.position = 420, 240
+        
+        label = cocos.text.Label('Pick one? Click He or She!',
+            font_name='liberationmono',
+            font_size=16,
+            anchor_x='center', anchor_y='center')
+
+        label.position = 320, 80
+        self.add( label )
+        
+        
+        
+    def on_mouse_press(self, x, y, mouse, modifiers):
+        """This function is called when mouse is pressed.
         """
+        print x, y, mouse, modifiers
+        rect1 = Rect(140, 120, 160, 240)
+        rect2 = Rect(340, 120, 160, 240)
         
-        self.keys_pressed.add(key)
-        sefl.print_test()
+        if(rect1.collidepoint(x,y)):
+            print "left area clicked"
+        elif(rect2.collidepoint(x,y)):
+            print "right area clicked"
 
-    def print_text(self):
-        print "key pressed"
+    def button_pressed(self):
+        print "print_text"
 
 
     

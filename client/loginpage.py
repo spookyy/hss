@@ -10,6 +10,7 @@ from pygame.locals import *
 
 from hall import *
 from room import *
+from god import *
 
 HOST = 'localhost'
 PORT = 6666
@@ -115,8 +116,4 @@ if __name__ == "__main__":
     eHall = Hall(sock)
     eHall.run()
     
-    cocos.director.director.init()
-    hello_room = Room(12)
-    
-    main_scene = cocos.scene.Scene(hello_room)
-    cocos.director.director.run(main_scene)
+    God(sock).run()

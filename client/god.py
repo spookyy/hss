@@ -13,7 +13,9 @@ class God():
         
         self.sock = sock
 
-        self.scene = MainScene(sock)
+        self.scene = main_scene.MainScene(sock)
 
     def run():        
         self.director.run(self.scene)
+
+God(12).run()

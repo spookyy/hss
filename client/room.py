@@ -14,14 +14,12 @@ from pygame.locals import *
 
 class Room(cocos.layer.Layer):
     is_event_handler = True
-    def __init__(self, scene, sock):
+    def __init__(self, sock):
         super(Room, self).__init__()
         
         self.sock = sock
-        self.scene = scene
         
-        self.image1 = pyglet.resource.image('qiuqiu.jpg')
-        self.image1.anchor_x = self.image1.width/2
+		self.image1.anchor_x = self.image1.width/2
         self.image1.anchor_y = self.image1.height/2
         sprite1 = Sprite(self.image1)
         self.add(sprite1, z=0, name="qiuqiu")
@@ -58,6 +56,33 @@ class Room(cocos.layer.Layer):
 
     def button_pressed(self):
         print "print_text"
+
+class GameLayer(cocos.layer.ColorLayer):
+	is_event_handler = True
+	def __init__(self, sock):
+		super(GameLayer,self).__init__(124,234,23, 128)
+		
+		self.sock = sock
+
+	def on_mouse_pressed(self, x, y, mouse, modifiers):
+		"""
+			This function is called when mouse is pressed,
+			Used to handle click event
+		"""
+		rect = Rect(0, 0, 640, 480)
+		
+		if(rect.collidepoint(x,y)):
+			print "GameLayer is clicked"
+		else:
+			pass
+	
+		
+
+
+
+
+
+
 
 
     

@@ -11,15 +11,20 @@ from cocos.sprite import Sprite
 
 from pygame.locals import *
 
+from cocos.layer import *
+from cocos.scene import *
+from cocos.director import *
 
-class Room(cocos.layer.Layer):
+
+class Room(Layer):
     is_event_handler = True
     def __init__(self, sock):
         super(Room, self).__init__()
         
         self.sock = sock
         
-		self.image1.anchor_x = self.image1.width/2
+        self.image1 = pyglet.resource.image('qiuqiu.jpg')
+        self.image1.anchor_x = self.image1.width/2
         self.image1.anchor_y = self.image1.height/2
         sprite1 = Sprite(self.image1)
         self.add(sprite1, z=0, name="qiuqiu")
@@ -45,45 +50,53 @@ class Room(cocos.layer.Layer):
     def on_mouse_press(self, x, y, mouse, modifiers):
         """This function is called when mouse is pressed.
         """
-        print x, y, mouse, modifiers
         rect1 = Rect(140, 120, 160, 240)
         rect2 = Rect(340, 120, 160, 240)
         
         if(rect1.collidepoint(x,y)):
-            print "left area clicked"
+            start_game_with_hero(1)
         elif(rect2.collidepoint(x,y)):
-            print "right area clicked"
+            start_game_with_hero(2)
+            
 
-    def button_pressed(self):
-        print "print_text"
+class GameLayer(Layer):
+    is_event_handler = True
+    def __init__(self, sock):
+        super(GameLayer,self).__init__()
+        
+        self.sock = sock
+        
+        label = cocos.text.Label('Welcome Player!',
+            font_name='liberationmono',
+            font_size=32,
+            anchor_x='center', anchor_y='center')
 
-class GameLayer(cocos.layer.ColorLayer):
-	is_event_handler = True
-	def __init__(self, sock):
-		super(GameLayer,self).__init__(124,234,23, 128)
-		
-		self.sock = sock
-
-	def on_mouse_pressed(self, x, y, mouse, modifiers):
-		"""
-			This function is called when mouse is pressed,
-			Used to handle click event
-		"""
-		rect = Rect(0, 0, 640, 480)
-		
-		if(rect.collidepoint(x,y)):
-			print "GameLayer is clicked"
-		else:
-			pass
-	
-		
-
-
-
-
-
-
-
-
+        label.position = 320,240
+        self.add( label )
+        
+    def on_mouse_press(self, x, y, mouse, modifiers):
+        """
+            This function is called when mouse is pressed,
+            Used to handle click event
+        """, 
+        print x, y, mouse
+        rect = Rect(0, 0, 640, 480)
+        
+        if(rect.collidepoint(x,y)):
+            print "GameLayer is clicked"
+        else:
+            pass
+        
+def start_game_with_hero(hero):
+    gameBgLayer = ColorLayer(122, 3, 255, 128)
+    gameLayer = GameLayer(123)
+    gameScene = Scene(gameBgLayer, gameLayer)
+    director.replace(gameScene)
+        
+if __name__ == "__main__":    
+    director.init(width=640, height=480, caption="hei shen sha").set_location(353, 144)
     
-    
+    pickBgLayer = ColorLayer(122, 3, 255, 128)
+    pickLayer = Room(123)
+    pickScene = Scene(pickBgLayer, pickLayer)
+    director.run(pickScene)

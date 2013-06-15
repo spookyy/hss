@@ -54,9 +54,9 @@ class Room(Layer):
         rect2 = Rect(340, 120, 160, 240)
         
         if(rect1.collidepoint(x,y)):
-            start_game_with_hero(1)
+            start_game_with_hero(1, self.sock)
         elif(rect2.collidepoint(x,y)):
-            start_game_with_hero(2)
+            start_game_with_hero(2, self.sock)
             
 
 class GameLayer(Layer):
@@ -84,19 +84,20 @@ class GameLayer(Layer):
         
         if(rect.collidepoint(x,y)):
             print "GameLayer is clicked"
+            self.sock.send(u"gamestart")
         else:
             pass
         
-def start_game_with_hero(hero):
+def start_game_with_hero(hero,sock):
     gameBgLayer = ColorLayer(122, 3, 255, 128)
-    gameLayer = GameLayer(123)
+    gameLayer = GameLayer(sock)
     gameScene = Scene(gameBgLayer, gameLayer)
     director.replace(gameScene)
         
-if __name__ == "__main__":    
-    director.init(width=640, height=480, caption="hei shen sha").set_location(353, 144)
-    
-    pickBgLayer = ColorLayer(122, 3, 255, 128)
-    pickLayer = Room(123)
-    pickScene = Scene(pickBgLayer, pickLayer)
-    director.run(pickScene)
+# if __name__ == "__main__":    
+#     director.init(width=640, height=480, caption="hei shen sha").set_location(353, 144)
+#      
+#     pickBgLayer = ColorLayer(122, 3, 255, 128)
+#     pickLayer = Room(123)
+#     pickScene = Scene(pickBgLayer, pickLayer)
+#     director.run(pickScene)

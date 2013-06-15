@@ -23,7 +23,7 @@ loop(Sock,TstInfo) ->
 	    Join_room = room:player_enter(list_to_atom(Room), list_to_atom(TId)),
 	    case Join_room of 
 		"ok" ->
-		    {ok, Pid} = player:start(list_to_atom(TId)),
+		    {ok, Pid} = player:start(list_to_atom(TId),Sock),
 		    gen_tcp:controlling_process(Sock, Pid),
 		    gen_tcp:send(Sock,"ok"),
 		    loop(Sock, TstInfo);

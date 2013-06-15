@@ -13,10 +13,10 @@
 -module(player).
 -behavior(gen_fsm).
 
--record(player,{state}).
+-record(player,{sock,state}).
 %% API
 -export([
-	 start/1,
+	 start/2,
 	 start_round/1,
 	 do_nothing/1
 	]).
@@ -39,9 +39,8 @@
 %%% API
 %%%==================================================================
 
-start(LocalName) ->
-    
-    gen_fsm:start({local, LocalName}, ?MODULE, [], []).
+start(LocalName, Sock) ->
+    gen_fsm:start({local, LocalName}, ?MODULE, [Sock], []).
 
 start_round(LocalName) ->
     gen_fsm:send_event(LocalName, round_start).
@@ -75,9 +74,10 @@ round_start(Event, StateData) ->
 %%%==================================================================
 %%% gen_fsm callbacks
 %%%==================================================================
-init([]) ->
+init([Sock]) ->
     %%
-    State = #player{state=do_nothing},
+    inet:setopts(Sock, [{active, once}]),
+    State = #player{sock=Sock, state=do_nothing},
     {ok, do_nothing, State}.
 
 handle_event(_Event, _StateName, State) ->
@@ -86,7 +86,9 @@ handle_event(_Event, _StateName, State) ->
 handle_sync_event(_Event, _From, _StateName, State)->
     {next_state, _StateName, State}.
 
-handle_info(_Info, _StateName, StateData) ->
+handle_info(Info, _StateName, StateData) ->
+    io:format("~p~n", [Info]),
+    inet:setopts(StateData#player.sock, [{active, once}]),
     {next_state, _StateName, StateData}.
 
 terminate(_Reason, _StateName, _State) ->

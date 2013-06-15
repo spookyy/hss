@@ -10,7 +10,6 @@ from pygame.locals import *
 
 from hall import *
 from room import *
-from god import *
 
 HOST = 'localhost'
 PORT = 6666
@@ -116,4 +115,9 @@ if __name__ == "__main__":
     eHall = Hall(sock)
     eHall.run()
     
-    God(sock).run()
+    director.init(width=640, height=480, caption="hei shen sha").set_location(353, 144)
+      
+    pickBgLayer = ColorLayer(122, 3, 255, 128)
+    pickLayer = Room(sock)
+    pickScene = Scene(pickBgLayer, pickLayer)
+    director.run(pickScene)

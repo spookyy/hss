@@ -5,37 +5,44 @@ class State:
         pass
     
 class NonState(State):
-    def action(self, role):
-        print "this is nonstate"
+    @staticmethod
+    def action(role):
+        print "This is NonState"
         role.set_state(StartState())
         
 class StartState(State):
-    def action(self, role):
-        print "this is startstate"
+    @staticmethod
+    def action(role):
+        print "This is StartState"
         role.set_state(JudgeState())
 
 class JudgeState(State):
-    def action(self, role):
-        print "this is judgestate"
+    @staticmethod
+    def action(role):
+        print "This is JudgeState"
         role.set_state(DrawState())
         
 class DrawState(State):
-    def action(self, role):
-        print "this is drawstate"
+    @staticmethod
+    def action(role):
+        print "This is DrawState"
         role.set_state(DealState())
         
 class DealState(State):
-    def action(self, role):
-        print "this is dealstate"
+    @staticmethod
+    def action(role):
+        print "This is DealState"
         role.set_state(DiscardState())
         
 class DiscardState(State):
-    def action(self, role):
-        print "this is discardstate"
+    @staticmethod
+    def action(role):
+        print "This is DiscardState"
         role.set_state(EndState())
  
 class EndState(State):
-    def action(self, role):
-        print "this is endstate"
+    @staticmethod
+    def action(role):
+        print "This is EndState"
         role.set_state(NonState())
                

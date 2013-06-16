@@ -14,6 +14,7 @@ from pygame.locals import *
 from cocos.layer import *
 from cocos.scene import *
 from cocos.director import *
+from role_factory import *
 
 
 class Room(Layer):
@@ -54,17 +55,20 @@ class Room(Layer):
         rect2 = Rect(340, 120, 160, 240)
         
         if(rect1.collidepoint(x,y)):
-            start_game_with_hero(1, self.sock)
+            start_game_with_hero("heishen", self.sock)
         elif(rect2.collidepoint(x,y)):
-            start_game_with_hero(2, self.sock)
+            start_game_with_hero("qiumochuang", self.sock)
             
 
 class GameLayer(Layer):
     is_event_handler = True
-    def __init__(self, sock):
+    def __init__(self, sock, hero):
         super(GameLayer,self).__init__()
         
         self.sock = sock
+        
+        # every layer has a hero
+        self.hero = hero
         
         label = cocos.text.Label('Welcome Player!',
             font_name='liberationmono',
@@ -84,20 +88,17 @@ class GameLayer(Layer):
         
         if(rect.collidepoint(x,y)):
             print "GameLayer is clicked"
+            self.hero.action()
             self.sock.send(u"gamestart")
         else:
             pass
         
 def start_game_with_hero(hero,sock):
+    # create a charactor
+    Hero = RoleFactory.create(hero)
+    
     gameBgLayer = ColorLayer(122, 3, 255, 128)
-    gameLayer = GameLayer(sock)
+    gameLayer = GameLayer(sock,Hero)
+    
     gameScene = Scene(gameBgLayer, gameLayer)
     director.replace(gameScene)
-        
-# if __name__ == "__main__":    
-#     director.init(width=640, height=480, caption="hei shen sha").set_location(353, 144)
-#      
-#     pickBgLayer = ColorLayer(122, 3, 255, 128)
-#     pickLayer = Room(123)
-#     pickScene = Scene(pickBgLayer, pickLayer)
-#     director.run(pickScene)

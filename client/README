@@ -8,6 +8,14 @@ To run this code, you should have python, pyQt4, cocos2d-python, pygame in your 
    
    room.py      ---> the "main" page where you actually playing game
    
+   role.py      ---> father class
+      
+   heishen.py qiumochuang
+                ---> concrete class of role.py
+   role_factory.py ---> works as name tells
+   
+   state.py     ---> provides all states that role needs.
+   
 2, how to run the client
 
 python loginpage.py
